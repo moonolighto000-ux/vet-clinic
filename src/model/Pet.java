@@ -1,3 +1,5 @@
+package model;
+
 public class Pet {
 
     private int petId;
@@ -81,7 +83,7 @@ public class Pet {
 
     @Override
     public String toString() {
-        return "Pet{petId=" + petId +
+        return "model.Pet{petId=" + petId +
                 ", name='" + name + '\'' +
                 ", species='" + species + '\'' +
                 ", age=" + age +
