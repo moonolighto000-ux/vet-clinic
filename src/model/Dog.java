@@ -13,7 +13,8 @@ public class Dog extends Animal {
         System.out.println("Dog vaccinated");
     }
 
-    public void bark() {
-        System.out.println("Woof!");
+    @Override
+    public void makeSound() {
+        System.out.println("Woof! Woof!");
     }
 }

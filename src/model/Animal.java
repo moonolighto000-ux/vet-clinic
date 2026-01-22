@@ -2,7 +2,7 @@ package model;
 
 import exception.InvalidInputException;
 
-public class Animal {
+public abstract class Animal implements Actionable{
 
     private String name;
     private int age;
@@ -29,6 +29,9 @@ public class Animal {
     public void treat() {
         System.out.println("Animal treated");
     }
+
+    @Override
+    public abstract void makeSound();
 
     @Override
     public String toString() {
