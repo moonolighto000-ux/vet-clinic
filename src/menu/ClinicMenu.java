@@ -32,6 +32,7 @@ public class ClinicMenu implements Menu {
                     case 2 -> addCat();
                     case 3 -> viewAnimals();
                     case 4 -> treatAnimals();
+                    case 5 -> makeAllSounds();
                     case 0 -> System.out.println("Exiting...");
                     default -> System.out.println("Invalid option.");
                 }
