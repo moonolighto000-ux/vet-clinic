@@ -95,7 +95,6 @@ public class ClinicMenu implements Menu {
 
     private void makeAllSounds() {
         System.out.println("Animals making sounds...");
-        // Использование интерфейса Actionable
         for (Animal a : animals) {
             a.makeSound();
         }
