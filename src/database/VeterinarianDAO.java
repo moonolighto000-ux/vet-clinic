@@ -158,4 +158,61 @@ public class VeterinarianDAO {
 
         return list;
     }
+
+    public List<Veterinarian> getByMinExperience(int minExp) {
+        List<Veterinarian> list = new ArrayList<>();
+        String sql = "SELECT * FROM veterinarian WHERE experience >= ?";
+
+        Connection conn = DatabaseConnection.getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, minExp);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Veterinarian(
+                        rs.getInt("vet_id"),
+                        rs.getString("name"),
+                        rs.getString("specialization"),
+                        rs.getInt("experience")
+                ));
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.close(conn);
+        }
+        return list;
+    }
+
+    public List<Veterinarian> getByExperienceRange(int min, int max) {
+        List<Veterinarian> list = new ArrayList<>();
+        String sql = "SELECT * FROM veterinarian WHERE experience BETWEEN ? AND ?";
+
+        Connection conn = DatabaseConnection.getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, min);
+            ps.setInt(2, max);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Veterinarian(
+                        rs.getInt("vet_id"),
+                        rs.getString("name"),
+                        rs.getString("specialization"),
+                        rs.getInt("experience")
+                ));
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.close(conn);
+        }
+        return list;
+    }
 }

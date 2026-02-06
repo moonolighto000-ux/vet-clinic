@@ -23,7 +23,9 @@ public class ClinicMenu implements Menu {
             System.out.println("3. Add Veterinarian (DB)");
             System.out.println("4. View All Veterinarians (DB)");
             System.out.println("5. Search Vet by Name (ILIKE)");
-            System.out.println("6. Delete Veterinarian (Safe)");
+            System.out.println("6. Search Vet by Min Experience (Numeric)");
+            System.out.println("7. Search Vet by range");
+            System.out.println("8. Delete Veterinarian (Safe)");
             System.out.println("0. Exit");
             System.out.print("Choice: ");
 
@@ -42,7 +44,9 @@ public class ClinicMenu implements Menu {
                     case 3 -> addVeterinarian();
                     case 4 -> viewVets();
                     case 5 -> searchVet();
-                    case 6 -> deleteVet();
+                    case 6 -> searchByExperience();
+                    case 7 -> searchByExperienceRange();
+                    case 8 -> deleteVet();
                     case 0 -> System.out.println("Goodbye!");
                     default -> System.out.println("Invalid option.");
                 }
@@ -58,7 +62,7 @@ public class ClinicMenu implements Menu {
         String name = scanner.nextLine();
         System.out.print("Specialization: ");
         String spec = scanner.nextLine();
-        System.out.print("Experience: ");
+        System.out.print("Experience (years): ");
         int exp = scanner.nextInt();
         scanner.nextLine();
 
@@ -80,6 +84,24 @@ public class ClinicMenu implements Menu {
         vetDAO.searchByName(name).forEach(System.out::println);
     }
 
+    private void searchByExperience() {
+        System.out.print("Enter minimum years of experience: ");
+        if (scanner.hasNextInt()) {
+            int minExp = scanner.nextInt();
+            scanner.nextLine();
+
+            List<Veterinarian> results = vetDAO.getByMinExperience(minExp);
+            if (results.isEmpty()) {
+                System.out.println("No veterinarians found with experience >= " + minExp);
+            } else {
+                results.forEach(System.out::println);
+            }
+        } else {
+            System.out.println("Invalid number format.");
+            scanner.nextLine();
+        }
+    }
+
     private void deleteVet() {
         System.out.print("Enter ID to delete: ");
         int id = scanner.nextInt();
@@ -89,6 +111,28 @@ public class ClinicMenu implements Menu {
         if (scanner.nextLine().equalsIgnoreCase("y")) {
             if (vetDAO.delete(id)) System.out.println("Deleted.");
             else System.out.println("Not found.");
+        }
+    }
+
+    private void searchByExperienceRange() {
+        try {
+            System.out.print("Enter minimum experience: ");
+            int min = scanner.nextInt();
+            System.out.print("Enter maximum experience: ");
+            int max = scanner.nextInt();
+            scanner.nextLine();
+
+            List<Veterinarian> results = vetDAO.getByExperienceRange(min, max);
+
+            if (results.isEmpty()) {
+                System.out.println("No veterinarians found in range " + min + " - " + max);
+            } else {
+                System.out.println("--- Veterinarians in range " + min + "-" + max + " ---");
+                results.forEach(System.out::println);
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter numbers.");
+            scanner.nextLine();
         }
     }
 
